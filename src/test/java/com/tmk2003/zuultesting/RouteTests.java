@@ -28,6 +28,8 @@ public class RouteTests {
 
     /* Final Variables */
     private final String TEST_BODY                      = "Tester";                         // Test response from mock services
+    private final String TEST_PARAM_RESULT              = "test_search_param";              // Test response from mock services
+    private final String TEST_PARAM_NAME                = "FireHouse";                      // Test response from mock services
     private final TestRestTemplate TEMPLATE             = new TestRestTemplate();           // Test rest template for routing
 
     /**
@@ -87,9 +89,13 @@ public class RouteTests {
     @Test
     public void whenPathingToUserWithParametersRouteToUserServiceWithParameters() {
         // When the mock user service get hit at its /horse endpoint, lets return successful
+        //
+        // !Important: you must use urlPathEqualTo or urlPathMatching to specify the path,
+        // as urlEqualTo or urlMatching will attempt to match the whole request URL,
+        // including the query parameters
         mockUserService.stubFor(
-                get(urlEqualTo("/"))
-                .withQueryParam("search_term", equalTo("WireMock"))
+                get(urlPathEqualTo("/"))
+                .withQueryParam(TEST_PARAM_NAME, equalTo(TEST_PARAM_RESULT))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "text/json")
                         .withStatus(200)
@@ -97,7 +103,7 @@ public class RouteTests {
 
         UriComponentsBuilder builder = UriComponentsBuilder
                 .fromUriString(routeBuilder("/user"))
-                .queryParam("search_term", "WireMock");
+                .queryParam(TEST_PARAM_NAME, TEST_PARAM_RESULT);
 
         ResponseEntity<String> response = TEMPLATE.getForEntity(builder.toUriString(), String.class);
 
