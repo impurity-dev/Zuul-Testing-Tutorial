@@ -10,6 +10,7 @@ import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.*;
@@ -84,7 +85,25 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToUserWithParametersRouteToUserServiceWithParameters() {
-        // TODO
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        mockUserService.stubFor(
+                get(urlEqualTo("/"))
+                .withQueryParam("search_term", equalTo("WireMock"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(routeBuilder("/user"))
+                .queryParam("search_term", "WireMock");
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(builder.toUriString(), String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockUserService.verify(1, getRequestedFor(urlPathEqualTo("/"))); // Ensure it was hit once
     }
 
     /**
