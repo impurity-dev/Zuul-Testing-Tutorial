@@ -64,7 +64,19 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToUserWithExtensionsRouteToUserServiceWithExtensions() {
-        // TODO
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        mockUserService.stubFor(get(urlEqualTo("/horse"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/user/horse"),String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockUserService.verify(1, getRequestedFor(urlPathEqualTo("/horse"))); // Ensure it was hit once
     }
 
     /**
