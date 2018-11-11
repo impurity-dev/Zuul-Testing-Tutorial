@@ -64,7 +64,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToUserWithExtensionsRouteToUserServiceWithExtensions() {
-
+        // TODO
     }
 
     /**
@@ -72,7 +72,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToUserWithParametersRouteToUserServiceWithParameters() {
-
+        // TODO
     }
 
     /**
@@ -80,7 +80,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToUserWithParametersAndExtensionsRouteToUserServiceWithParametersAndExtensions() {
-
+        // TODO
     }
 
     /* Moderator Routes */
@@ -90,7 +90,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorRouteToModeratorService() {
-
+        // TODO
     }
 
     /**
@@ -98,7 +98,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorWithExtensionsRouteToModeratorServiceWithExtensions() {
-
+        // TODO
     }
 
     /**
@@ -106,7 +106,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorWithParametersRouteToModeratorServiceWithParameters() {
-
+        // TODO
     }
 
     /**
@@ -114,7 +114,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorWithParametersAndExtensionsRouteToModeratorServiceWithParametersAndExtensions() {
-
+        // TODO
     }
 
     /* Admin Routes */
@@ -124,7 +124,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminRouteToAdminService() {
-
+        // TODO
     }
 
     /**
@@ -132,7 +132,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminWithExtensionsRouteToAdminServiceWithExtensions() {
-
+        // TODO
     }
 
     /**
@@ -140,7 +140,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminWithParametersRouteToAdminServiceWithParameters() {
-
+        // TODO
     }
 
     /**
@@ -148,7 +148,7 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminWithParametersAndExtensionsRouteToAdminServiceWithParametersAndExtensions() {
-
+        // TODO
     }
 
 }
