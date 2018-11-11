@@ -1,7 +1,6 @@
 package com.tmk2003.zuultesting;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
