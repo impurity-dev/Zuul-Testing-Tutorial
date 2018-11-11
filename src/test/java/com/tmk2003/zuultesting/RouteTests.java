@@ -190,10 +190,31 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorWithParametersRouteToModeratorServiceWithParameters() {
-        // TODO
-        Assert.fail();
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        //
+        // !Important: you must use urlPathEqualTo or urlPathMatching to specify the path,
+        // as urlEqualTo or urlMatching will attempt to match the whole request URL,
+        // including the query parameters
+        mockModService.stubFor(
+                get(urlPathEqualTo("/"))
+                        .withQueryParam(TEST_PARAM_NAME, equalTo(TEST_PARAM_RESULT))
+                        .willReturn(aResponse()
+                                .withHeader("Content-Type", "text/json")
+                                .withStatus(200)
+                                .withBody(TEST_BODY)));
+
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(routeBuilder("/mod"))
+                .queryParam(TEST_PARAM_NAME, TEST_PARAM_RESULT);
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(builder.toUriString(), String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockModService.verify(1, getRequestedFor(urlPathEqualTo("/"))); // Ensure it was hit once
     }
--
+
     /**
      * Ensure the /Moderator/**?x=y&w=z path routes to Moderator service and maintains the ?x=y&w=z parameters and /** extension
      */
