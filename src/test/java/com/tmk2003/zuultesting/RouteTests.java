@@ -41,6 +41,57 @@ public class RouteTests {
         return "http://localhost:" + port + path;
     }
 
+    /* Ignore Routes */
+
+    /**
+     * Ensure heartbeat is ignored
+     */
+    @Test
+    public void whenPathingToHeartbeatIgnoreRequest() {
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/heartbeat"), String.class);
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());                  // It was NOT successful
+    }
+
+    /**
+     * Ensure heartbeat is ignored even with extensions
+     */
+    @Test
+    public void whenPathingToHeartbeatWithExtensionIgnoreRequest() {
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/heartbeat/admin"), String.class);
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());                  // It was NOT successful
+    }
+
+    /**
+     * Ensure heartbeat is ignored even with params
+     */
+    @Test
+    public void whenPathingToHeartbeatWithParamsIgnoreRequest() {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(routeBuilder("/heartbeat"))
+                .queryParam(TEST_PARAM_NAME, TEST_PARAM_RESULT);
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(builder.toUriString(), String.class);
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());                  // It was NOT successful
+
+    }
+
+    /**
+     * Ensure heartbeat is ignored even with extension and params
+     */
+    @Test
+    public void whenPathingToHeartbeatWithParamsAndExtensionIgnoreRequest() {
+        UriComponentsBuilder builder = UriComponentsBuilder
+                .fromUriString(routeBuilder("/heartbeat/mod"))
+                .queryParam(TEST_PARAM_NAME, TEST_PARAM_RESULT);
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(builder.toUriString(), String.class);
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());                  // It was NOT successful
+    }
+
     /* User Routes */
 
     /**
@@ -55,7 +106,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/user"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/user"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
@@ -75,7 +126,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/user/horse"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/user/horse"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
@@ -157,7 +208,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
@@ -177,7 +228,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod/horse"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod/horse"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
@@ -259,7 +310,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
@@ -279,7 +330,7 @@ public class RouteTests {
                         .withStatus(200)
                         .withBody(TEST_BODY)));
 
-        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin/horse"),String.class);
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin/horse"), String.class);
 
         assertNotNull(response);                                                       // Response exists
         assertEquals(TEST_BODY, response.getBody());                                   // It get the body
