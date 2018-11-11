@@ -1,6 +1,7 @@
 package com.tmk2003.zuultesting;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
+import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -112,6 +113,7 @@ public class RouteTests {
     @Test
     public void whenPathingToUserWithParametersAndExtensionsRouteToUserServiceWithParametersAndExtensions() {
         // TODO
+        Assert.fail();
     }
 
     /* Moderator Routes */
@@ -121,7 +123,19 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorRouteToModeratorService() {
-        // TODO
+        // When the mock user service get hit at its "home ('/')", lets return successful
+        mockModService.stubFor(get(urlEqualTo("/"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod"),String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockModService.verify(1, getRequestedFor(urlPathEqualTo("/"))); // Ensure it was hit once
     }
 
     /**
@@ -129,7 +143,19 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToModeratorWithExtensionsRouteToModeratorServiceWithExtensions() {
-        // TODO
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        mockModService.stubFor(get(urlEqualTo("/horse"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/mod/horse"),String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockModService.verify(1, getRequestedFor(urlPathEqualTo("/horse"))); // Ensure it was hit once
     }
 
     /**
@@ -138,6 +164,7 @@ public class RouteTests {
     @Test
     public void whenPathingToModeratorWithParametersRouteToModeratorServiceWithParameters() {
         // TODO
+        Assert.fail();
     }
 
     /**
@@ -146,6 +173,7 @@ public class RouteTests {
     @Test
     public void whenPathingToModeratorWithParametersAndExtensionsRouteToModeratorServiceWithParametersAndExtensions() {
         // TODO
+        Assert.fail();
     }
 
     /* Admin Routes */
@@ -155,7 +183,19 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminRouteToAdminService() {
-        // TODO
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        mockAdminService.stubFor(get(urlEqualTo("/"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin"),String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockAdminService.verify(1, getRequestedFor(urlPathEqualTo("/"))); // Ensure it was hit once
     }
 
     /**
@@ -163,7 +203,19 @@ public class RouteTests {
      */
     @Test
     public void whenPathingToAdminWithExtensionsRouteToAdminServiceWithExtensions() {
-        // TODO
+        // When the mock user service get hit at its /horse endpoint, lets return successful
+        mockAdminService.stubFor(get(urlEqualTo("/horse"))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "text/json")
+                        .withStatus(200)
+                        .withBody(TEST_BODY)));
+
+        ResponseEntity<String> response = TEMPLATE.getForEntity(routeBuilder("/admin/horse"),String.class);
+
+        assertNotNull(response);                                                       // Response exists
+        assertEquals(TEST_BODY, response.getBody());                                   // It get the body
+        assertEquals(HttpStatus.OK, response.getStatusCode());                         // It was successful
+        mockAdminService.verify(1, getRequestedFor(urlPathEqualTo("/horse"))); // Ensure it was hit once
     }
 
     /**
@@ -172,6 +224,7 @@ public class RouteTests {
     @Test
     public void whenPathingToAdminWithParametersRouteToAdminServiceWithParameters() {
         // TODO
+        Assert.fail();
     }
 
     /**
@@ -180,6 +233,7 @@ public class RouteTests {
     @Test
     public void whenPathingToAdminWithParametersAndExtensionsRouteToAdminServiceWithParametersAndExtensions() {
         // TODO
+        Assert.fail();
     }
 
 }
